@@ -283,6 +283,7 @@ class Shitted(Status):
     
     def __init__(self, actor, stacks=1):
         self.stacks=stacks
+        self.applied_stacks = 0
         Status.__init__(self, actor, acting=True)
         
     def reapply(self, parent):
@@ -291,10 +292,13 @@ class Shitted(Status):
     def activate(self, action = None):
         if 'clean' in self.unit.action:
             self.string('end', format_dict={'actor': self.unit.name})
+            self.unit.boost_attribute('damage', self.stacks)
             self.finish()
         else:
-            self.unit.boost_attribute('damage', -self.stacks)
-            self.string('use', format_dict={'actor': self.unit.name, 'damage_lost': self.stacks})
+            if self.applied_stacks != self.stacks:
+                self.unit.boost_attribute('damage', self.applied_stacks-self.stacks)
+                self.applyed_stacks = self.stacks
+                self.string('use', format_dict={'actor': self.unit.name, 'damage_lost': self.stacks})
             
             
             
