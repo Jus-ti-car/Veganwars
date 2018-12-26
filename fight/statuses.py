@@ -273,3 +273,30 @@ class Confused(Status):
     def menu_string(self):
         return emoji_utils.emote_dict['confused_em'] + str(self.turns)
 
+
+    
+# Классы Пасюка
+
+class Shitted(Status):
+    name = 'shitted'
+    order = 30
+    
+    def __init__(self, actor, stacks=1):
+        self.stacks=stacks
+        Status.__init__(self, actor, acting=True)
+        
+    def reapply(self, parent):
+        parent.stacks += self.stacks
+        
+    def activate(self, action = None):
+        if 'clean' in self.unit.action:
+            self.string('end', format_dict={'actor': self.unit.name})
+            self.finish()
+        else:
+            self.unit.boost_attribute('damage', -self.stacks)
+            self.string('shit', format_dict={'actor': self.unit.name, 'damage_lost': self.stacks})
+            
+            
+            
+            
+        
