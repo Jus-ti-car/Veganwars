@@ -294,7 +294,7 @@ class Shitted(Status):
             self.finish()
         else:
             self.unit.boost_attribute('damage', -self.stacks)
-            self.string('shit', format_dict={'actor': self.unit.name, 'damage_lost': self.stacks})
+            self.string('use', format_dict={'actor': self.unit.name, 'damage_lost': self.stacks})
             
             
             
